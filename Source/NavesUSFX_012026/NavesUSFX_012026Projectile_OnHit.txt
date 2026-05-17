@@ -1,0 +1,197 @@
+// ============================================================================
+// IMPLEMENTACIÓN DEL MANEJADOR DE EVENTO: OnHit
+// ============================================================================
+/**
+ * MÉTODO: void ANavesUSFX_012026Projectile::OnHit(...)
+ * 
+ * TIPO: Manejador de evento (Event handler)
+ * EVENTO DISPARADOR: OnComponentHit de ProjectileMesh
+ * 
+ * LLAMADA AUTOMÁTICA:
+ * Este método se ejecuta automáticamente cada vez que ProjectileMesh
+ * colisiona con otro componente en el mundo.
+ * 
+ * UBICACIÓN EN EL FLUJO DEL JUEGO:
+ * Proyectil creado ? Proyectil se mueve ? Proyectil golpea algo
+ *                                                  ?? OnHit() se ejecuta
+ * 
+ * RESPONSABILIDADES:
+ * 1. Verificar que la colisión es válida y no es auto-colisión
+ * 2. Si el objeto golpeado tiene física, aplicar impulso
+ * 3. Destruir el proyectil
+ */
+void ANavesUSFX_012026Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+    // ????????????????????????????????????????????????????????????????????
+    // VALIDACIÓN DE COLISIÓN
+    // ????????????????????????????????????????????????????????????????????
+
+    /**
+     * CONDICIÓN COMPLEJA: if ( ... && ... && ... && ... )
+     * Es una cadena de validaciones con lógica AND (&&).
+     * Todas deben ser verdaderas para entrar al bloque.
+     * Si UNA es falsa, la condición total es falsa.
+     * 
+     * EVALUACIÓN DE CORTOCIRCUITO:
+     * && es un operador de cortocircuito: si la primera es falsa,
+     * no evalúa el resto (ahorra procesamientos innecesarios).
+     * 
+     * ORDEN IMPORTANTE:
+     * Colocamos las validaciones más baratas (nullptr) primero.
+     * Solo si pasan esas, se evalúa IsSimulatingPhysics() que es más costosa.
+     */
+    if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
+    {
+        // ????????????????????????????????????????????????????????????????????
+        // EXPLICACIÓN DE CADA VALIDACIÓN:
+        // ????????????????????????????????????????????????????????????????????
+
+        /**
+         * VALIDACIÓN 1: OtherActor != nullptr
+         * 
+         * PROPÓSITO:
+         * Verificar que el actor golpeado es válido (existe en memoria).
+         * 
+         * nullptr es un puntero nulo, significa "no apunta a nada".
+         * A veces Unreal Engine llama a este evento con nullptr para actores
+         * que están siendo destruidos o no inicializados correctamente.
+         * 
+         * SI SE SALTA ESTA VALIDACIÓN:
+         * El código intentaría acceder a memoria inválida ? CRASH del juego.
+         * Este check la previene de manera segura.
+         */
+
+        /**
+         * VALIDACIÓN 2: OtherActor != this
+         * 
+         * PROPÓSITO:
+         * Asegurarse que el proyectil NO se golpe a sí mismo.
+         * 
+         * CONTEXTO:
+         * A veces ocurren "auto-colisiones" por un par de fotogramas.
+         * El proyectil podría recibir un evento OnHit dónde OtherActor
+         * sea el mismo proyectil.
+         * 
+         * SI SE SALTA ESTA VALIDACIÓN:
+         * El proyectil se destruiría a sí mismo inmediatamente.
+         * Nunca alcanzaría su objetivo.
+         * 
+         * ANALOGÍA:
+         * Como revisar "¿es esta persona yo?" antes de pelear con alguien.
+         */
+
+        /**
+         * VALIDACIÓN 3: OtherComp != nullptr
+         * 
+         * PROPÓSITO:
+         * Verificar que el componente golpeado es válido.
+         * 
+         * OtherComp es el componente ESPECÍFICO del OtherActor que colisionó.
+         * Por ejemplo, si golpeas un coche, OtherComp podría ser "la puerta"
+         * no "el coche entero".
+         * 
+         * SI SE SALTA ESTA VALIDACIÓN:
+         * Intentaríamos acceder a un puntero inválido ? CRASH.
+         */
+
+        /**
+         * VALIDACIÓN 4: OtherComp->IsSimulatingPhysics()
+         * 
+         * PROPÓSITO:
+         * Verificar que el componente golpeado ESTÁ ACTIVO físicamente.
+         * 
+         * IsSimulatingPhysics() es una función que devuelve true/false:
+         *   - true: El componente responde a física (puede ser movido)
+         *   - false: El componente está estático/fijo (no se mueve)
+         * 
+         * EJEMPLOS:
+         * - Pared estática (false): No debe ser movida por proyectil
+         * - Caja dinámica (true): Puede ser movida por proyectil
+         * - Enemigo ragdoll (true): Puede ser movido por fuerza de proyectil
+         * 
+         * ¿POR QUÉ ESTA VALIDACIÓN?
+         * No tiene sentido aplicar impulso a objetos estáticos.
+         * Gastaríamos CPU haciendo cálculos que el motor ignorará.
+         * Esta validación evita trabajo innecesario (optimización).
+         */
+
+        // ????????????????????????????????????????????????????????????????????
+        // SI TODAS LAS VALIDACIONES SON TRUE: Aplicar impulso
+        // ????????????????????????????????????????????????????????????????????
+
+        /**
+         * OtherComp->AddImpulseAtLocation(...)
+         * 
+         * QUÉ HACE:
+         * Añade una fuerza (impulso) instantánea a un componente en una ubicación específica.
+         * Es como darle un golpe a un objeto: le transmites energía cinética.
+         * 
+         * EFECTO EN EL JUEGO:
+         * El objeto golpeado sale volando en la dirección del proyectil.
+         * Crea una reacción física realista (cajas volando, enemigos siendo empujados).
+         * 
+         * PARÁMETRO 1: GetVelocity() * 20.0f
+         * - GetVelocity() = Velocidad actual del proyectil
+         *                  (La dirección y rapidez que llevaba)
+         * - * 20.0f = Multiplicador que amplifica la fuerza 20 veces
+         *            (Hace que el impulso sea notorio)
+         * - EJEMPLO: Si el proyectil viajaba a 3000 unidades/según,
+         *           se aplica un impulso de 60000 unidades.
+         *           Esto empuja el objeto bastante fuerte.
+         * 
+         * PARÁMETRO 2: GetActorLocation()
+         * - Es la posición actual del proyectil en el mundo
+         * - Indica DÓNDE se aplica el impulso
+         * - Si el objeto es grande, la ubicación del impacto afecta cómo rota
+         * 
+         * ANALOGÍA DE IMPACTO:
+         * Golpear en el centro = objeto se mueve recto
+         * Golpear en una esquina = objeto se mueve Y rota
+         */
+        OtherComp->AddImpulseAtLocation(GetVelocity() * 20.0f, GetActorLocation());
+    }
+    // Si la colisión no cumple con las validaciones, simplemente se ignora el impulso.
+    // No hay error, solo no hacemos nada.
+
+    // ????????????????????????????????????????????????????????????????????
+    // DESTRUCCIÓN DEL PROYECTIL
+    // ????????????????????????????????????????????????????????????????????
+
+    /**
+     * Destroy()
+     * 
+     * QUÉ HACE:
+     * Marca este actor (el proyectil) para ser destruido.
+     * No lo destruye INMEDIATAMENTE, sino que lo coloca en una cola de eliminación.
+     * El motor lo eliminará al final del fotograma actual.
+     * 
+     * POR QUÉ NO INMEDIATO:
+     * Es peligroso modificar listas mientras se itera sobre ellas.
+     * Unreal Engine usa una cola de eliminación segura para evitar crashes.
+     * 
+     * FLUJO:
+     * 1. OnHit() se ejecuta
+     * 2. Se llama a Destroy()
+     * 3. Proyectil está marcado como "por destruir"
+     * 4. El código en OnHit() sigue ejecutándose normalmente
+     * 5. Al final del fotograma: el motor elimina el proyectil
+     * 6. El actor se elimina del mundo
+     * 7. Se libera su memoria
+     * 
+     * MEMORIA:
+     * Antes de Destroy(): Proyectil ocupa ~5KB en RAM + texturas/mallas
+     * Después de Destroy(): Toda esa memoria se recupera
+     * 
+     * IMPORTANTE:
+     * Destroy() se llama INCONDICIONALMENTE al final de OnHit().
+     * Esto significa que el proyectil SIEMPRE se destruye cuando colisiona,
+     * sin importar el resultado de las validaciones anteriores.
+     * 
+     * LÓGICA DE JUEGO:
+     * "El proyectil golpea algo y desaparece" ? Comportamiento esperado
+     * para un Twin Stick Shooter.
+     */
+    Destroy();
+    // RESULTADO: El proyectil ha desaparecido del mundo
+    // Siguiente ejecución: En el siguiente fotograma, este actor ya no existe
+}

@@ -1,0 +1,74 @@
+# ============================================================================
+# GIT LFS - Configuracion para archivos grandes de Unreal Engine
+# ============================================================================
+# Los archivos listados aqui se almacenan con Git LFS (Large File Storage)
+# en lugar de en el repositorio de Git directamente. Esto mantiene el repo
+# mas ligero y permite trabajar con archivos grandes mas eficientemente.
+
+# ============================================================================
+# ARCHIVOS BINARIOS DE UNREAL ENGINE
+# ============================================================================
+
+# Meshes / Geometria 3D
+*.uasset filter=lfs diff=lfs merge=lfs -text
+*.umap filter=lfs diff=lfs merge=lfs -text
+
+# Audio
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.ogg filter=lfs diff=lfs merge=lfs -text
+*.flac filter=lfs diff=lfs merge=lfs -text
+
+# Video
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.avi filter=lfs diff=lfs merge=lfs -text
+*.mov filter=lfs diff=lfs merge=lfs -text
+*.mkv filter=lfs diff=lfs merge=lfs -text
+
+# Imagenes de alta resolucion
+*.png filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.tga filter=lfs diff=lfs merge=lfs -text
+*.psd filter=lfs diff=lfs merge=lfs -text
+
+# Compilados y binarios
+*.exe filter=lfs diff=lfs merge=lfs -text
+*.dll filter=lfs diff=lfs merge=lfs -text
+*.lib filter=lfs diff=lfs merge=lfs -text
+*.obj filter=lfs diff=lfs merge=lfs -text
+
+# Intermediate y Binaries
+Intermediate/** filter=lfs diff=lfs merge=lfs -text
+Binaries/** filter=lfs diff=lfs merge=lfs -text
+
+# ============================================================================
+# ARCHIVOS DE TEXTO (Git normal)
+# ============================================================================
+# Estos archivos se almacenan en Git normalmente porque son pequenos
+# y benefician de que Git rastreè los cambios linea por linea.
+
+*.cpp diff=cpp
+*.h diff=cpp
+*.hpp diff=cpp
+*.c diff=cpp
+*.cc diff=cpp
+
+*.cs diff=csharp
+*.java diff=java
+*.py diff=python
+*.js diff=javascript
+*.json diff=json
+*.xml diff=xml
+*.yaml diff=yaml
+*.yml diff=yaml
+
+*.md diff=markdown
+*.txt diff=text
+
+# ============================================================================
+# CONFIGURACION DE UNREAL ENGINE
+# ============================================================================
+.vs/ filter=lfs diff=lfs merge=lfs -text
+Saved/** filter=lfs diff=lfs merge=lfs -text
+DerivedDataCache/** filter=lfs diff=lfs merge=lfs -text

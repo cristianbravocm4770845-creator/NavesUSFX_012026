@@ -1,0 +1,111 @@
+# ============================================================================
+# GIT IGNORE - Archivos a no rastrear en el repositorio
+# ============================================================================
+# Estos archivos se ignoran porque son:
+# - Generados automaticamente
+# - Especificos de cada usuario
+# - Demasiado grandes
+# - No necesarios para otros desarrolladores
+
+# ============================================================================
+# CARPETAS DE UNREAL ENGINE
+# ============================================================================
+
+# Directorio de archivos intermedios (muy grande)
+Intermediate/
+
+# Directorio de binarios compilados
+Binaries/
+
+# Directorio de datos derivados de cache
+DerivedDataCache/
+
+# Directorio de archivos guardados durante ejecucion
+Saved/
+
+# Plugins instalados
+Plugins/
+
+# ============================================================================
+# ARCHIVOS DE IDE Y CONFIGURACION LOCAL
+# ============================================================================
+
+# Visual Studio
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.VC.db
+*.VC.db-shm
+*.VC.db-wal
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# ============================================================================
+# ARCHIVOS TEMPORALES Y DEL SISTEMA
+# ============================================================================
+
+# Windows
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.lnk
+
+# Archivos temporales
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# Archivos de bloqueo
+*.lock
+*.pid
+
+# ============================================================================
+# ARCHIVOS ESPECIFICOS DE UNREAL ENGINE
+# ============================================================================
+
+# Configuracion del editor local
+*.ini
+
+# Archivos de proyecto generados
+.uproject
+!NavesUSFX_012026.uproject
+
+# Archivos de compilacion
+*.o
+*.a
+*.so
+*.dylib
+
+# Logs
+Logs/
+*.log
+
+# ============================================================================
+# DEPENDENCIES (no incluir librerias de terceros grandes)
+# ============================================================================
+# Generalmente se descargan con un script de setup
+
+ThirdParty/
+
+# ============================================================================
+# NOTAS PERSONALES (no subir)
+# ============================================================================
+NOTAS.txt
+TODO.txt
+*.personal
