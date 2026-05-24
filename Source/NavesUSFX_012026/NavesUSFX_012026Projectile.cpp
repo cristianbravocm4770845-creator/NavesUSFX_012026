@@ -1,36 +1,36 @@
-// Copyright Epic Games, Inc. All Rights Reserve
+Ôªø// Copyright Epic Games, Inc. All Rights Reserve
 
 // ============================================================================
 // INCLUSIONES (Headers)
 // ============================================================================
-// Estas lÌneas le dicen al compilador quÈ archivos de cÛdigo incluir.
+// Estas l√≠neas le dicen al compilador qu√© archivos de c√≥digo incluir.
 // Cada #include proporciona acceso a clases, funciones y tipos definidos en
 // otros archivos del proyecto o del motor Unreal Engine.
 
-#include "NavesUSFX_012026Projectile.h"              // DefiniciÛn de la clase del proyectil
+#include "NavesUSFX_012026Projectile.h"              // Definici√≥n de la clase del proyectil
 #include "GameFramework/ProjectileMovementComponent.h" // UProjectileMovementComponent: gestor de movimiento
 #include "UObject/ConstructorHelpers.h"               // FObjectFinder: busca assets en Content Browser
-#include "Components/StaticMeshComponent.h"           // UStaticMeshComponent: renderiza geometrÌa 3D
-#include "Engine/StaticMesh.h"                        // UStaticMesh: recurso de geometrÌa est·tica
+#include "Components/StaticMeshComponent.h"           // UStaticMeshComponent: renderiza geometr√≠a 3D
+#include "Engine/StaticMesh.h"                        // UStaticMesh: recurso de geometr√≠a est√°tica
 
 
 // ============================================================================
-// IMPLEMENTACI”N DEL CONSTRUCTOR
+// IMPLEMENTACI√ìN DEL CONSTRUCTOR
 // ============================================================================
 /**
  * CONSTRUCTOR: ANavesUSFX_012026Projectile::ANavesUSFX_012026Projectile()
  * 
- * LLAMADA: Se ejecuta UNA SOLA VEZ autom·ticamente cuando el motor crea
+ * LLAMADA: Se ejecuta UNA SOLA VEZ autom√°ticamente cuando el motor crea
  *          un nuevo proyectil en el mundo del juego.
  * 
- * FLUJO DE EJECUCI”N:
+ * FLUJO DE EJECUCI√ìN:
  * 1. BUSCAR ASSETS en el Content Browser ("staticfindObject" en tiempo de carga)
- * 2. CREAR COMPONENTES din·micamente
+ * 2. CREAR COMPONENTES din√°micamente
  * 3. CONFIGURAR propiedades de cada componente
- * 4. CONECTAR eventos (enlazar OnHit a la colisiÛn)
- * 5. RETORNAR - El proyectil est· listo para existir en el mundo
+ * 4. CONECTAR eventos (enlazar OnHit a la colisi√≥n)
+ * 5. RETORNAR - El proyectil est√° listo para existir en el mundo
  * 
- * UBICACI”N EN LA JERARQUÕA DE CLASES:
+ * UBICACI√ìN EN LA JERARQU√çA DE CLASES:
  * ANavesUSFX_012026Projectile::Constructor() es parte de la clase Projectile.
  * AActor (clase base) -> ANavesUSFX_012026Projectile (clase actual)
  */
@@ -45,9 +45,9 @@ ANavesUSFX_012026Projectile::ANavesUSFX_012026Projectile()
 	 * Esta es una plantilla de Unreal Engine que busca assets de tipo UStaticMesh
 	 * en el Content Browser usando una ruta de recurso.
 	 * 
-	 * PAR¡METRO: TEXT("/Game/TwinStick/Meshes/TwinStickProjectile.TwinStickProjectile")
+	 * PAR√ÅMETRO: TEXT("/Game/TwinStick/Meshes/TwinStickProjectile.TwinStickProjectile")
 	 * Ruta interna de Unreal Engine hacia el asset de malla:
-	 *   /Game     = Carpeta raÌz del proyecto
+	 *   /Game     = Carpeta ra√≠z del proyecto
 	 *   TwinStick = Subcarpeta
 	 *   Meshes    = Subcarpeta de mallas
 	 *   TwinStickProjectile.TwinStickProjectile = Nombre del asset y su clase
@@ -57,30 +57,30 @@ ANavesUSFX_012026Projectile::ANavesUSFX_012026Projectile()
 	 * - ProjectileMeshAsset.Object = nullptr si el asset no se encuentra
 	 * 
 	 * IMPORTANTE:
-	 * static = Esta b˙squeda solo ocurre UNA VEZ (en la primera instancia).
+	 * static = Esta b√∫squeda solo ocurre UNA VEZ (en la primera instancia).
 	 * Las instancias posteriores reutilizan el resultado cacheado.
 	 */
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> ProjectileMeshAsset(TEXT("/Game/TwinStick/Meshes/TwinStickProjectile.TwinStickProjectile"));
 
 	// ????????????????????????????????????????????????????????????????????
-	// PASO 2: CREAR COMPONENTE PROJECTILEMESH (Renderizado + ColisiÛn)
+	// PASO 2: CREAR COMPONENTE PROJECTILEMESH (Renderizado + Colisi√≥n)
 	// ????????????????????????????????????????????????????????????????????
 
 	/**
 	 * CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMesh0"))
 	 * 
-	 * øQU… ES CreateDefaultSubobject?
-	 * Es una funciÛn de AActor que crea componentes din·micamente en el constructor.
-	 * Cada componente creado se vincula autom·ticamente a este actor.
+	 * ¬øQU√â ES CreateDefaultSubobject?
+	 * Es una funci√≥n de AActor que crea componentes din√°micamente en el constructor.
+	 * Cada componente creado se vincula autom√°ticamente a este actor.
 	 * 
-	 * øQU… PAR¡METRO RECIBE?
-	 * TEXT("ProjectileMesh0") = Nombre ˙nico del componente (usado internamente)
+	 * ¬øQU√â PAR√ÅMETRO RECIBE?
+	 * TEXT("ProjectileMesh0") = Nombre √∫nico del componente (usado internamente)
 	 *                           Es visible en el editor de Unreal
 	 * 
-	 * øQU… RETORNA?
-	 * Puntero a UStaticMeshComponent reciÈn creado y listo para configurar
+	 * ¬øQU√â RETORNA?
+	 * Puntero a UStaticMeshComponent reci√©n creado y listo para configurar
 	 * 
-	 * ASIGNACI”N A VARIABLE:
+	 * ASIGNACI√ìN A VARIABLE:
 	 * ProjectileMesh = ... ? Se guarda el puntero en la propiedad de miembro
 	 *                         para acceso posterior
 	 */
@@ -89,35 +89,35 @@ ANavesUSFX_012026Projectile::ANavesUSFX_012026Projectile()
 	/**
 	 * SetStaticMesh(ProjectileMeshAsset.Object)
 	 * 
-	 * PROP”SITO:
-	 * Asigna la geometrÌa 3D (malla visual) que encontramos anteriormente
+	 * PROP√ìSITO:
+	 * Asigna la geometr√≠a 3D (malla visual) que encontramos anteriormente
 	 * al componente ProjectileMesh.
 	 * 
-	 * SIN ESTA LÕNEA:
-	 * El componente existirÌa pero serÌa invisible en el juego
-	 * (sin geometrÌa que renderizar).
+	 * SIN ESTA L√çNEA:
+	 * El componente existir√≠a pero ser√≠a invisible en el juego
+	 * (sin geometr√≠a que renderizar).
 	 * 
-	 * CON ESTA LÕNEA:
-	 * El proyectil mostrar· visualmente una esfera pequeÒa en pantalla.
+	 * CON ESTA L√çNEA:
+	 * El proyectil mostrar√° visualmente una esfera peque√±a en pantalla.
 	 */
 	ProjectileMesh->SetStaticMesh(ProjectileMeshAsset.Object);
 
 	/**
 	 * SetupAttachment(RootComponent)
 	 * 
-	 * PROP”SITO:
-	 * Attach = Adjuntar/Vincular un componente a otro en la jerarquÌa.
+	 * PROP√ìSITO:
+	 * Attach = Adjuntar/Vincular un componente a otro en la jerarqu√≠a.
 	 * 
-	 * PAR¡METRO: RootComponent
-	 * Este es el componente raÌz del actor (que se heredÛ de AActor).
+	 * PAR√ÅMETRO: RootComponent
+	 * Este es el componente ra√≠z del actor (que se hered√≥ de AActor).
 	 * La primera vez que se ejecuta, RootComponent es nullptr.
 	 * 
 	 * EN ESTE PUNTO:
-	 * RootComponent a˙n no est· definido (es nullptr).
-	 * Pero en las siguientes lÌneas se asignar· ProjectileMesh como RootComponent.
+	 * RootComponent a√∫n no est√° definido (es nullptr).
+	 * Pero en las siguientes l√≠neas se asignar√° ProjectileMesh como RootComponent.
 	 * 
 	 * NOTA DE ORDEN:
-	 * Este SetupAttachment() se hace ahora pero tiene efecto despuÈs
+	 * Este SetupAttachment() se hace ahora pero tiene efecto despu√©s
 	 * de que definamos RootComponent = ProjectileMesh;
 	 */
 	ProjectileMesh->SetupAttachment(RootComponent);
@@ -125,24 +125,24 @@ ANavesUSFX_012026Projectile::ANavesUSFX_012026Projectile()
 	/**
 	 * BodyInstance.SetCollisionProfileName("Projectile")
 	 * 
-	 * øQU… ES BodyInstance?
-	 * Es la informaciÛn de fÌsica del componente. AquÌ se configura:
-	 * - Con quÈ puede colisionar
-	 * - CÛmo responde a la colisiÛn
-	 * - Si est· sujeto a gravedad
+	 * ¬øQU√â ES BodyInstance?
+	 * Es la informaci√≥n de f√≠sica del componente. Aqu√≠ se configura:
+	 * - Con qu√© puede colisionar
+	 * - C√≥mo responde a la colisi√≥n
+	 * - Si est√° sujeto a gravedad
 	 * - etc.
 	 * 
-	 * PERFIL DE COLISI”N: "Projectile"
-	 * UE4 tiene perfiles de colisiÛn predefinidos que agrupan configuraciones.
-	 * El perfil "Projectile" est· diseÒado para:
+	 * PERFIL DE COLISI√ìN: "Projectile"
+	 * UE4 tiene perfiles de colisi√≥n predefinidos que agrupan configuraciones.
+	 * El perfil "Projectile" est√° dise√±ado para:
 	 *   - Colisionar con paredes, terreno, enemigos, etc.
-	 *   - Permitir pasar a travÈs de ciertos objetos
+	 *   - Permitir pasar a trav√©s de ciertos objetos
 	 *   - Ser lo suficientemente eficiente para muchas instancias
 	 * 
 	 * IMPORTANCIA:
-	 * Sin esta configuraciÛn, el proyectil podrÌa:
+	 * Sin esta configuraci√≥n, el proyectil podr√≠a:
 	 *   - No colisionar con nada
-	 *   - Colisionar con todo (incluida la nave que lo disparÛ)
+	 *   - Colisionar con todo (incluida la nave que lo dispar√≥)
 	 *   - Ser demasiado lento si se renderizan muchos
 	 */
 	ProjectileMesh->BodyInstance.SetCollisionProfileName("Projectile");
@@ -150,28 +150,28 @@ ANavesUSFX_012026Projectile::ANavesUSFX_012026Projectile()
 	/**
 	 * OnComponentHit.AddDynamic(...)
 	 * 
-	 * øQU… ES UN EVENTO (Event)?
-	 * Es un patrÛn de diseÒo donde un objeto notifica a otros cuando algo sucede.
+	 * ¬øQU√â ES UN EVENTO (Event)?
+	 * Es un patr√≥n de dise√±o donde un objeto notifica a otros cuando algo sucede.
 	 * OnComponentHit es un evento que se dispara cada vez que el componente
 	 * colisiona con algo.
 	 * 
-	 * øQU… SIGNIFICA .AddDynamic(...)?
-	 * Se est· registrando una funciÛn que ser· llamada autom·ticamente
+	 * ¬øQU√â SIGNIFICA .AddDynamic(...)?
+	 * Se est√° registrando una funci√≥n que ser√° llamada autom√°ticamente
 	 * cuando ocurra el evento OnComponentHit.
 	 * 
 	 * SINTAXIS: .AddDynamic(this, &ClassName::MethodName)
-	 * - this = El objeto que contendr· la funciÛn (en este caso, el proyectil)
-	 * - & = Operador de direcciÛn de memoria
-	 * - ANavesUSFX_012026Projectile::OnHit = La funciÛn a ejecutar
+	 * - this = El objeto que contendr√° la funci√≥n (en este caso, el proyectil)
+	 * - & = Operador de direcci√≥n de memoria
+	 * - ANavesUSFX_012026Projectile::OnHit = La funci√≥n a ejecutar
 	 * 
 	 * RESULTADO:
 	 * Cada vez que ProjectileMesh colisiona:
 	 *   1. Unreal Engine dispara el evento OnComponentHit
-	 *   2. OnComponentHit llama autom·ticamente a OnHit() de este proyectil
-	 *   3. OnHit() ejecuta su lÛgica (destruir el proyectil, aplicar daÒo, etc.)
+	 *   2. OnComponentHit llama autom√°ticamente a OnHit() de este proyectil
+	 *   3. OnHit() ejecuta su l√≥gica (destruir el proyectil, aplicar da√±o, etc.)
 	 * 
-	 * ANAL”GÕA:
-	 * Es como darle a alguien tu n˙mero de telÈfono
+	 * ANAL√ìG√çA:
+	 * Es como darle a alguien tu n√∫mero de tel√©fono
 	 * para que te llame cuando algo importante suceda.
 	 */
 	ProjectileMesh->OnComponentHit.AddDynamic(this, &ANavesUSFX_012026Projectile::OnHit);
@@ -179,17 +179,17 @@ ANavesUSFX_012026Projectile::ANavesUSFX_012026Projectile()
 	/**
 	 * RootComponent = ProjectileMesh
 	 * 
-	 * øQU… ES RootComponent?
+	 * ¬øQU√â ES RootComponent?
 	 * Es el componente principal/padre del actor.
-	 * La posiciÛn, rotaciÛn y escala del actor se definen por RootComponent.
+	 * La posici√≥n, rotaci√≥n y escala del actor se definen por RootComponent.
 	 * 
-	 * CONSECUENCIAS DE ESTA ASIGNACI”N:
-	 * - La posiciÛn del ACTOR = PosiciÛn de ProjectileMesh
+	 * CONSECUENCIAS DE ESTA ASIGNACI√ìN:
+	 * - La posici√≥n del ACTOR = Posici√≥n de ProjectileMesh
 	 * - Si mueves ProjectileMesh, el actor se mueve
-	 * - Todos los dem·s componentes se adjuntan a ProjectileMesh
+	 * - Todos los dem√°s componentes se adjuntan a ProjectileMesh
 	 * 
 	 * NOTA VISUAL EN EDITOR:
-	 * En el editor de Unreal, ver·s una jerarquÌa:
+	 * En el editor de Unreal, ver√°s una jerarqu√≠a:
 	 *   ANavesUSFX_012026Projectile (ACTOR)
 	 *     ?? ProjectileMesh (COMPONENT - RootComponent)
 	 *     ?? ProjectileMovement (COMPONENT)
@@ -197,84 +197,84 @@ ANavesUSFX_012026Projectile::ANavesUSFX_012026Projectile()
 	RootComponent = ProjectileMesh;
 
 	// ????????????????????????????????????????????????????????????????????
-	// PASO 3: CREAR COMPONENTE PROJECTILEMOVEMENT (FÌsica/Movimiento)
+	// PASO 3: CREAR COMPONENTE PROJECTILEMOVEMENT (F√≠sica/Movimiento)
 	// ????????????????????????????????????????????????????????????????????
 
 	/**
 	 * CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement0"))
 	 * 
-	 * SIMILAR A ProjectileMesh, pero este componente NO renderiza geometrÌa.
-	 * Su propÛsito es GESTIONAR EL MOVIMIENTO del proyectil.
+	 * SIMILAR A ProjectileMesh, pero este componente NO renderiza geometr√≠a.
+	 * Su prop√≥sito es GESTIONAR EL MOVIMIENTO del proyectil.
 	 * 
 	 * NOMBRE: UProjectileMovementComponent
 	 * - U prefix = Es un componente de Unreal Engine
-	 * - ProjectileMovement = Es especÌfico para proyectiles
+	 * - ProjectileMovement = Es espec√≠fico para proyectiles
 	 * - Component = Es un componente (se adjunta a actores)
 	 * 
-	 * CARACTERÕSTICAS:
-	 * - Simula fÌsica realista (movimiento, gravedad, rebotes)
-	 * - Cada fotograma calcula autom·ticamente la nueva posiciÛn
-	 * - Se integra directamente con el sistema de fÌsica de UE4
-	 * - Es mucho m·s eficiente que calcular movimiento manualmente
+	 * CARACTER√çSTICAS:
+	 * - Simula f√≠sica realista (movimiento, gravedad, rebotes)
+	 * - Cada fotograma calcula autom√°ticamente la nueva posici√≥n
+	 * - Se integra directamente con el sistema de f√≠sica de UE4
+	 * - Es mucho m√°s eficiente que calcular movimiento manualmente
 	 */
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement0"));
 
 	/**
 	 * UpdatedComponent = ProjectileMesh
 	 * 
-	 * øQU… SIGNIFICA?
-	 * Le dice a ProjectileMovement QU… COMPONENTE debe mover.
+	 * ¬øQU√â SIGNIFICA?
+	 * Le dice a ProjectileMovement QU√â COMPONENTE debe mover.
 	 * 
-	 * EJECUCI”N EN CADA FOTOGRAMA:
-	 * 1. ProjectileMovement calcula velocidad y posiciÛn
+	 * EJECUCI√ìN EN CADA FOTOGRAMA:
+	 * 1. ProjectileMovement calcula velocidad y posici√≥n
 	 * 2. ProjectileMovement llama a MoveComponent() en ProjectileMesh
-	 * 3. ProjectileMesh se traslada a la nueva posiciÛn
-	 * 4. Como ProjectileMesh es el RootComponent, el ACTOR se mueve tambiÈn
+	 * 3. ProjectileMesh se traslada a la nueva posici√≥n
+	 * 4. Como ProjectileMesh es el RootComponent, el ACTOR se mueve tambi√©n
 	 * 
 	 * IMPORTANCIA:
-	 * Sin esta lÌnea, ProjectileMovement no sabrÌa quÈ mover.
-	 * El proyectil existirÌa pero no se moverÌa.
+	 * Sin esta l√≠nea, ProjectileMovement no sabr√≠a qu√© mover.
+	 * El proyectil existir√≠a pero no se mover√≠a.
 	 */
 	ProjectileMovement->UpdatedComponent = ProjectileMesh;
 
 	/**
 	 * InitialSpeed = 3000.0f
 	 * 
-	 * øQU… SIGNIFICA?
+	 * ¬øQU√â SIGNIFICA?
 	 * Es la velocidad a la que el proyectil se dispara inicialmente.
 	 * 
 	 * UNIDADES:
 	 * 3000.0f = 3000 unidades de Unreal Engine por segundo
-	 * 1 unidad ? 1 centÌmetro en la mayorÌa de proyectos
+	 * 1 unidad ? 1 cent√≠metro en la mayor√≠a de proyectos
 	 * Por lo tanto: 3000 unidades/seg = 30 metros/segundo
 	 * 
-	 * RANGO TÕPICO:
+	 * RANGO T√çPICO:
 	 * - Muy lento: 500-1000 unidades/seg
 	 * - Normal: 2000-3000 unidades/seg
-	 * - Muy r·pido: 5000+ unidades/seg
+	 * - Muy r√°pido: 5000+ unidades/seg
 	 * 
 	 * EFECTO EN JUEGO:
-	 * A mayor velocidad, m·s r·pido llega el proyectil a su destino.
-	 * Pero tambiÈn es m·s difÌcil esquivarlo.
+	 * A mayor velocidad, m√°s r√°pido llega el proyectil a su destino.
+	 * Pero tambi√©n es m√°s dif√≠cil esquivarlo.
 	 */
 	ProjectileMovement->InitialSpeed = 3000.f;
 
 	/**
 	 * MaxSpeed = 3000.0f
 	 * 
-	 * øQU… SIGNIFICA?
-	 * Es la velocidad M¡XIMA que el proyectil puede alcanzar.
+	 * ¬øQU√â SIGNIFICA?
+	 * Es la velocidad M√ÅXIMA que el proyectil puede alcanzar.
 	 * 
 	 * SI InitialSpeed == MaxSpeed:
 	 * El proyectil mantiene una velocidad constante durante su vuelo.
 	 * No acelera ni desacelera.
 	 * 
 	 * SI InitialSpeed < MaxSpeed:
-	 * El proyectil podrÌa accelerar gradualmente hasta alcanzar MaxSpeed.
-	 * (Si hay aceleraciÛn aplicada, pero en este caso no la hay)
+	 * El proyectil podr√≠a accelerar gradualmente hasta alcanzar MaxSpeed.
+	 * (Si hay aceleraci√≥n aplicada, pero en este caso no la hay)
 	 * 
 	 * SI InitialSpeed > MaxSpeed:
-	 * El motor autom·ticamente limita la velocidad a MaxSpeed.
+	 * El motor autom√°ticamente limita la velocidad a MaxSpeed.
 	 * Esto previene bugs o velocidades irrazonables.
 	 * 
 	 * EN ESTE PROYECTO:
@@ -285,67 +285,67 @@ ANavesUSFX_012026Projectile::ANavesUSFX_012026Projectile()
 	/**
 	 * bRotationFollowsVelocity = true
 	 * 
-	 * øQU… SIGNIFICA?
+	 * ¬øQU√â SIGNIFICA?
 	 * El prefijo "b" indica que es un boolean (verdadero/falso).
-	 * Esta propiedad controla si el proyectil rota seg˙n su direcciÛn.
+	 * Esta propiedad controla si el proyectil rota seg√∫n su direcci√≥n.
 	 * 
 	 * SI ES TRUE (como en este caso):
-	 * - El proyectil SIEMPRE apunta hacia la direcciÛn que se mueve
+	 * - El proyectil SIEMPRE apunta hacia la direcci√≥n que se mueve
 	 * - Si vuela hacia arriba, rota para mirar hacia arriba
 	 * - Si vuela hacia la derecha, rota para mirar a la derecha
-	 * - Se ve m·s realista y natural
+	 * - Se ve m√°s realista y natural
 	 * 
 	 * SI FUERA FALSE:
-	 * - El proyectil mantendrÌa su rotaciÛn inicial fija
-	 * - Aunque se mueva en otra direcciÛn, no rota
+	 * - El proyectil mantendr√≠a su rotaci√≥n inicial fija
+	 * - Aunque se mueva en otra direcci√≥n, no rota
 	 * - Se ve menos realista (como si estuviera "patinando")
 	 * 
-	 * VISUALIZACI”N:
+	 * VISUALIZACI√ìN:
 	 * TRUE:  El proyectil [? ? ? ? ?] se rota constantemente
-	 * FALSE: El proyectil [? ? ? ? ?] mantiene la misma rotaciÛn
+	 * FALSE: El proyectil [? ? ? ? ?] mantiene la misma rotaci√≥n
 	 */
 	ProjectileMovement->bRotationFollowsVelocity = true;
 
 	/**
 	 * bShouldBounce = false
 	 * 
-	 * øQU… SIGNIFICA?
+	 * ¬øQU√â SIGNIFICA?
 	 * Controla si el proyectil "rebota" cuando toca una superficie.
 	 * 
 	 * SI ES FALSE (como en este caso):
 	 * - El proyectil NO rebota
 	 * - Cuando toca algo, se destruye inmediatamente
-	 * - Efecto: disparar una bala de caÒÛn que se rompe al impactar
+	 * - Efecto: disparar una bala de ca√±√≥n que se rompe al impactar
 	 * 
 	 * SI FUERA TRUE:
 	 * - El proyectil REBOTA como una pelota de goma
-	 * - Cambia de direcciÛn pero sigue existiendo
+	 * - Cambia de direcci√≥n pero sigue existiendo
 	 * - Efecto: disparar una pelota que rebota por el nivel
-	 * - Usar para granadas, pelotas m·gicas, etc.
+	 * - Usar para granadas, pelotas m√°gicas, etc.
 	 * 
-	 * L”GICA DE JUEGO:
+	 * L√ìGICA DE JUEGO:
 	 * En "Twin Stick Shooter", los proyectiles son balas que no rebotan.
-	 * Por eso bShouldBounce est· en FALSE.
+	 * Por eso bShouldBounce est√° en FALSE.
 	 */
 	ProjectileMovement->bShouldBounce = false;
 
 	/**
 	 * ProjectileGravityScale = 0.0f
 	 * 
-	 * øQU… SIGNIFICA?
+	 * ¬øQU√â SIGNIFICA?
 	 * Es un multiplicador de gravedad (0.0 = sin gravedad, 1.0 = gravedad normal).
 	 * 
 	 * SI ES 0.0f (como en este caso):
 	 * - NO hay gravedad actuando sobre el proyectil
-	 * - El proyectil vuela en lÌnea recta horizontal
+	 * - El proyectil vuela en l√≠nea recta horizontal
 	 * - No cae hacia el suelo
 	 * - Efecto: disparo plano, como en juegos de arcade
 	 * 
 	 * SI FUERA 1.0f:
-	 * - La gravedad NORMAL act˙a sobre el proyectil
+	 * - La gravedad NORMAL act√∫a sobre el proyectil
 	 * - El proyectil desciende gradualmente
-	 * - Forma una par·bola (como una pelota de basquetbol lanzada)
-	 * - Efecto: m·s realista pero m·s difÌcil de controlar
+	 * - Forma una par√°bola (como una pelota de basquetbol lanzada)
+	 * - Efecto: m√°s realista pero m√°s dif√≠cil de controlar
 	 * 
 	 * SI FUERA 0.5f:
 	 * - La gravedad es la mitad de lo normal
@@ -353,19 +353,19 @@ ANavesUSFX_012026Projectile::ANavesUSFX_012026Projectile()
 	 * - Efecto: bajo planeta de baja gravedad
 	 * 
 	 * EN ESTE PROYECTO:
-	 * Est· en 0.0 porque el juego es una vista superior (top-down)
+	 * Est√° en 0.0 porque el juego es una vista superior (top-down)
 	 * No tiene sentido tener gravedad "hacia abajo" en una vista cenital.
 	 */
 	ProjectileMovement->ProjectileGravityScale = 0.f;
 
 	// ????????????????????????????????????????????????????????????????????
-	// PASO 4: CONFIGURAR CICLO DE VIDA (AutodestrucciÛn)
+	// PASO 4: CONFIGURAR CICLO DE VIDA (Autodestrucci√≥n)
 	// ????????????????????????????????????????????????????????????????????
 
 	/**
 	 * InitialLifeSpan = 3.0f
 	 * 
-	 * øQU… SIGNIFICA?
+	 * ¬øQU√â SIGNIFICA?
 	 * Es el tiempo (en segundos) que el actor existe antes de autodestruirse.
 	 * Esta es una propiedad heredada de AActor.
 	 * 
@@ -374,25 +374,55 @@ ANavesUSFX_012026Projectile::ANavesUSFX_012026Projectile()
 	 * 2. El motor inicia un contador: 0 segundos
 	 * 3. El contador aumenta cada fotograma
 	 * 4. Cuando contador >= 3.0 segundos:
-	 *    a. El motor llama autom·ticamente a Destroy()
+	 *    a. El motor llama autom√°ticamente a Destroy()
 	 *    b. El proyectil se elimina del mundo
 	 *    c. Se libera su memoria
 	 * 
-	 * øPOR QU…?
+	 * ¬øPOR QU√â?
 	 * Si el proyectil nunca colisiona (escapa del mapa), necesita una forma
-	 * de eliminarse. Sin InitialLifeSpan, acumularÌa miles de proyectiles
+	 * de eliminarse. Sin InitialLifeSpan, acumular√≠a miles de proyectiles
 	 * fantasma invisibles consumiendo memoria y CPU.
 	 * 
-	 * DURACI”N TÕPICA:
-	 * - Corta (1-2 seg): Para juegos r·pidos o armas dÈbiles
+	 * DURACI√ìN T√çPICA:
+	 * - Corta (1-2 seg): Para juegos r√°pidos o armas d√©biles
 	 * - Media (3-5 seg): Para juegos normales (como este)
-	 * - Larga (10+ seg): Para proyectiles lentos o m·gicos
+	 * - Larga (10+ seg): Para proyectiles lentos o m√°gicos
 	 * 
 	 * EN ESTE PROYECTO:
 	 * 3.0 segundos a 3000 unidades/segundo = 9000 unidades recorridas
-	 * Es suficiente para cruzar la mayorÌa de niveles tÌpicos.
+	 * Es suficiente para cruzar la mayor√≠a de niveles t√≠picos.
 	 */
 	InitialLifeSpan = 3.0f;
 }
 
-// ============================================================================\n// IMPLEMENTACI\u00d3N DEL MANEJADOR DE EVENTO: OnHit\n// ============================================================================\n/**\n * M\u00c9TODO: void ANavesUSFX_012026Projectile::OnHit(...)\n * \n * TIPO: Manejador de evento (Event handler)\n * EVENTO DISPARADOR: OnComponentHit de ProjectileMesh\n * \n * LLAMADA AUTOM\u00c1TICA:\n * Este m\u00e9todo se ejecuta autom\u00e1ticamente cada vez que ProjectileMesh\n * colisiona con otro componente en el mundo.\n * \n * UBICACI\u00d3N EN EL FLUJO DEL JUEGO:\n * Proyectil creado \u2192 Proyectil se mueve \u2192 Proyectil golpea algo\n *                                                      \u2514\u2500 OnHit() se ejecuta\n * \n * RESPONSABILIDADES:\n * 1. Verificar que la colisi\u00f3n es v\u00e1lida y no es auto-colisi\u00f3n\n * 2. Si el objeto golpeado tiene f\u00edsica, aplicar impulso\n * 3. Destruir el proyectil\n */\nvoid ANavesUSFX_012026Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)\n{\n\t// \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\t// VALIDACI\u00d3N DE COLISI\u00d3N\n\t// \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\t\n\t// Si la colisi\u00f3n cumple con TODAS las validaciones, se aplica el impulso.\n\t// Si al menos una validaci\u00f3n falla, se salta este bloque.\n\tif ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())\n\t{\n\t\t// VALIDACI\u00d3N 1: OtherActor != nullptr\n\t\t// El actor golpeado debe existir en memoria (no puede ser nulo).\n\t\t// Si es nullptr, acceder a \u00e9l causer\u00eda un crash.\n\t\t\n\t\t// VALIDACI\u00d3N 2: OtherActor != this\n\t\t// El proyectil no debe golpearse a s\u00ed mismo (evita auto-colisiones).\n\t\t// Esto previene que el proyectil se destruya inmediatamente tras su creaci\u00f3n.\n\t\t\n\t\t// VALIDACI\u00d3N 3: OtherComp != nullptr\n\t\t// El componente del actor debe ser v\u00e1lido (no puede ser nulo).\n\t\t// Sin esto, no habr\u00eda nada a qu\u00e9 aplicar el impulso.\n\t\t\n\t\t// VALIDACI\u00d3N 4: OtherComp->IsSimulatingPhysics()\n\t\t// El componente debe estar activamente simulando f\u00edsica.\n\t\t// Objetos est\u00e1ticos (muros, suelo) tienen esto en false.\n\t\t// Objetos din\u00e1micos (cajas, enemigos) tienen esto en true.\n\t\t// Solo impulsamos objetos que pueden moverse.\n\t\t\n\t\t// Si TODAS las validaciones son verdaderas, aplicamos impulso.\n\t\t/**\n\t\t * AddImpulseAtLocation(Fuerza, Ubicaci\u00f3n)\n\t\t * \n\t\t * GetVelocity() = Velocidad actual del proyectil (direcci\u00f3n + rapidez)\n\t\t * * 20.0f = Multiplicador que amplifica 20 veces la fuerza\n\t\t * GetActorLocation() = Posici\u00f3n del proyectil en el mundo\n\t\t * \n\t\t * EFECTO:\n\t\t * El objeto golpeado recibe un empuj\u00f3n en la direcci\u00f3n del proyectil.\n\t\t * Cuanto m\u00e1s r\u00e1pido iba el proyectil, m\u00e1s fuerte es el empuj\u00f3n.\n\t\t */\n\t\tOtherComp->AddImpulseAtLocation(GetVelocity() * 20.0f, GetActorLocation());\n\t}\n\t// Si alguna validaci\u00f3n falla, se ignora el impulso y solo se destruye el proyectil.\n\n\t// \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\t// DESTRUCCI\u00d3N DEL PROYECTIL - OCURRE SIEMPRE\n\t// \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\t\n\t// Destroy() marca el proyectil para ser eliminado del mundo.\n\t// No lo elimina INMEDIATAMENTE sino al final del fotograma actual.\n\t// Esto es seguro y evita modificar listas durante iteraciones.\n\t// \n\t// CICLO DE VIDA:\n\t// 1. Proyectil se crea\n\t// 2. Proyectil viaja por el nivel\n\t// 3. Proyectil colisiona (OnHit se ejecuta)\n\t// 4. Destroy() marca el proyectil para eliminaci\u00f3n\n\t// 5. Fin del fotograma: el motor elimina el proyectil\n\t// 6. La memoria se libera\n\tDestroy();\n\t// RESULTADO: El proyectil ha desaparecido del mundo\n\t// En el siguiente fotograma, este actor ya no existe\n}"
+// ============================================================================
+// IMPLEMENTACIÔøΩN DEL MANEJADOR DE EVENTO: OnHit
+// ============================================================================
+/**
+ * MÔøΩTODO: void ANavesUSFX_012026Projectile::OnHit(...)
+ * 
+ * TIPO: Manejador de evento (Event handler)
+ * EVENTO DISPARADOR: OnComponentHit de ProjectileMesh
+ * 
+ * LLAMADA AUTOMÔøΩTICA:
+ * Este mÔøΩtodo se ejecuta automÔøΩticamente cada vez que ProjectileMesh
+ * colisiona con otro componente en el mundo.
+ * 
+ * UBICACIÔøΩN EN EL FLUJO DEL JUEGO:
+ * Proyectil creado ? Proyectil se mueve ? Proyectil golpea algo
+ *                                                      ?? OnHit() se ejecuta
+ * 
+ * RESPONSABILIDADES:
+ * 1. Verificar que la colisiÔøΩn es vÔøΩlida y no es auto-colisiÔøΩn
+ * 2. Si el objeto golpeado tiene fÔøΩsica, aplicar impulso
+ * 3. Destruir el proyectil
+ */
+void ANavesUSFX_012026Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+    if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
+    {
+        OtherComp->AddImpulseAtLocation(GetVelocity() * 20.0f, GetActorLocation());
+    }
+
+    Destroy();
+}
